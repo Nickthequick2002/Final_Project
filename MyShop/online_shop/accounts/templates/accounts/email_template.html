@@ -1,0 +1,27 @@
+{% load i18n %}{% autoescape off %}
+
+<!-- Block for translation of a message informing the user about the password reset request -->
+{% blocktranslate %}
+You're receiving this email because you requested a password reset for your user account at {{ site_name }}.
+{% endblocktranslate %}
+
+<!-- Translation of the instruction to go to the provided page to set a new password -->
+{% translate "Please go to the following page and choose a new password:" %}
+
+<!-- Block for the password reset link. This uses the protocol, domain, and URL token to generate the full reset link -->
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'accounts:password_reset_confirm' uidb64=uid token=token %}
+{% endblock %}
+
+<!-- Translation of the message providing the username in case the user has forgotten it -->
+{% translate 'Your username, in case you’ve forgotten:' %} {{ user.get_username }}
+
+<!-- Translation of a thank you message to the user for using the site -->
+{% translate "Thanks for using our site!" %}
+
+<!-- Block for translation of the closing message from the site team -->
+{% blocktranslate %}
+The {{ site_name }} team
+{% endblocktranslate %}
+
+{% endautoescape %}

@@ -1,0 +1,27 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<!-- Check the status of the order and display the appropriate message -->
+{% if order.status %}
+    <!-- Display success message if the order status is True -->
+    <h4><b class="text-success">Successful</b></h4>
+{% else %}
+    <!-- Display cancelled message if the order status is False -->
+    <h3><b class="text-danger">Cancelled</b></h3>
+{% endif %}
+
+<!-- Loop through each item in the order items -->
+{% for item in items %}
+<div class="bg-light rounded border-bottom p-3">
+    <!-- Display product title with a link to the product's detail page -->
+    <p>Product: <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}"> {{ item.product.title }}</a></p>
+    <!-- Display price of the product -->
+    <p>Price: ${{ item.price }}</p>
+    <!-- Display quantity of the product ordered -->
+    <p>Quantity: {{ item.quantity }}</p>
+</div>
+{% endfor %}
+
+<!-- Display the total price of the order -->
+<h4 class="border-top pt-2 text-muted">Total: ${{ order.get_total_price }}</h4>
+{% endblock %}

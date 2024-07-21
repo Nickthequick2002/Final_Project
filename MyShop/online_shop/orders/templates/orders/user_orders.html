@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Check if there are any orders -->
+{% if orders %}
+    <!-- Loop through each order in the orders context variable -->
+    {% for order in orders %}
+    <div class="col-md-7 mb-4 border rounded p-3">
+        <!-- Display the order ID on the right side -->
+        <b style="float: right;">Order Id: {{ order.id }}</b>
+        <!-- Display the order payment status -->
+        {% if order.status %}
+            <h4><b class="text-success">Successful</b></h4>
+        {% else %}
+            <h3><b class="text-danger">Cancelled</b></h3>
+        {% endif %}
+        <div class="text-muted border-top pt-2"></div>
+        <!-- Loop through each item in the order items -->
+        {% for item in order.items.all %}
+        <div class="border-bottom p-2">
+            <!-- Display the product title with a link to the product's detail page -->
+            <p>Product: <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a></p>
+            <!-- Display the price of the product -->
+            <p>Price: ${{ item.price }}</p>
+            <!-- Display the quantity of the product ordered -->
+            <p>Quantity: {{ item.quantity }}</p>
+        </div>
+        {% endfor %}
+        <!-- Display the total price of the order -->
+        <b>Total price: ${{ order.get_total_price }}</b>
+    </div>
+    {% endfor %}
+{% else %}
+    <!-- Display a message if there are no orders -->
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 mt-5 pt-5 text-center">
+            <br>
+            <h3 class="text-muted text-capitalize">Orders list is empty..!</h3>
+            <a href="/" class="text-primary text-decoration-none">Back</a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endif %}
+
+{% endblock %}

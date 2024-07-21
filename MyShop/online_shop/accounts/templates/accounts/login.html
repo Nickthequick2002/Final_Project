@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Container for the form with Bootstrap class to control width and alignment -->
+    <div class="col-md-6">
+        <!-- Form element with POST method for secure data submission -->
+        <form method="POST">
+            <!-- CSRF token for security to prevent Cross-Site Request Forgery attacks -->
+            {% csrf_token %}
+            <!-- Heading for the form -->
+            <h3>Login</h3>
+            <!-- Horizontal line for visual separation -->
+            <hr>
+            <!-- Render the form fields using crispy forms for Bootstrap styling -->
+            {{ form|crispy }}
+            <!-- Container for the submit button with Bootstrap class for styling -->
+            <div class="form-group">
+                <!-- Submit button with Bootstrap classes for styling -->
+                <button class="btn btn-primary mt-3 w-100" type="submit">Submit</button>
+            </div>
+            <!-- Additional div for the forgot password link with margin-top and margin-bottom classes -->
+            <div class="mt-2 mb-2">
+                <small class="">
+                    <!-- Forgot password link with Bootstrap classes for text styling -->
+                    <a class="text-decoration-none text-danger" href="{% url 'accounts:password_reset' %}">Forgot Password?</a>
+                </small>
+            </div>
+        </form>
+        <!-- Div for the new account creation link with a top border and padding-top class -->
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <!-- New account creation link with Bootstrap classes for text styling -->
+                New Here? <a class="text-decoration-none" href="{% url 'accounts:user_register' %}">Create account</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}

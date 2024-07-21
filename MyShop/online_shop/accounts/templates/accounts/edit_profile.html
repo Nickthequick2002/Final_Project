@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Container for the form with Bootstrap class to control width and alignment -->
+    <div class="col-md-6">
+        <!-- Form element with POST method for secure data submission -->
+        <form method="POST">
+            <!-- CSRF token for security to prevent Cross-Site Request Forgery attacks -->
+            {% csrf_token %}
+            <!-- Heading for the form -->
+            <h3>Edit Profile</h3>
+            <!-- Horizontal line for visual separation -->
+            <hr>
+            <!-- Render the form fields using crispy forms for Bootstrap styling -->
+            {{ form|crispy  }}
+            <!-- Container for the submit button with Bootstrap class for styling -->
+            <div class="form-group">
+                <!-- Submit button with Bootstrap classes for styling -->
+                <button class="btn btn-primary mt-3 w-100" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

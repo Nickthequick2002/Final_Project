@@ -1,0 +1,13 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.navbar, .card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.btn-dark-mode {
+    margin-left: auto;
+}

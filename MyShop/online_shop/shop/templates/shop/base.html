@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character set, compatibility, and responsive design -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS from CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts for material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!-- Custom CSS for footer -->
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <!-- Additional Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Dynamic title for the page -->
+    <title>{% if title %} {{ title }} {% else %} Fashion & Tech {% endif %}</title>
+</head>
+<body>
+  <header class="p-2 border-bottom">
+    <div class="container" >
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <!-- Logo and navigation links -->
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <img src="{% static 'shop/img/logo-png.png' %}" width="80" height="80" class="me-2" alt="MyShop" class="img-fluid float-left">
+        </a>
+        <!-- Cart icon and count for authenticated users -->
+        {% if request.user.is_authenticated %}
+        <b class="text-primary">{{ cart_count }}</b>
+        <a href="{% url 'cart:show_cart' %}" class="text-primary mt-2 me-2"><i class="material-icons h3">&#xe8cc;</i></a>
+        <!-- Favorite icon and count for authenticated users -->
+        <b class="text-primary">{{ request.user.get_likes_count }}</b>
+        <a href="{% url 'shop:favorites' %}" class="text-primary mt-2 me-2"><i class="material-icons h3">&#xe87d;</i></a>
+        {% endif %}
+        <!-- Navigation menu -->
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">Home</a></li>
+          <!-- Categories dropdown menu -->
+          <div class="dropdown text-end">
+            <a href="#" class="mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+              {% for category in categories %}
+                <!-- Display parent category and its subcategories -->
+                {% if not category.is_sub %}
+                  <li><a href="{% url 'shop:filter_by_category' category.slug %}" class="dropdown-item text-capitalize bg-light border"><b>{{ category }}</b></a></li>
+                  {% for child in category.sub_categories.all %}
+                    <li><a href="{% url 'shop:filter_by_category' child.slug %}" class="dropdown-item">{{ child }}</a></li>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <li><a href="{% url 'shop:faqs' %}" class="nav-link px-2 text-dark">FAQs</a></li>
+          <li><a href="{% url 'shop:about' %}" class="nav-link px-2 text-dark">About</a></li>
+        </ul>
+        <!-- Search form -->
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{% url 'shop:search' %}">
+          <input name="q" type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        </form>
+        <!-- User profile dropdown for authenticated users -->
+        {% if request.user.is_authenticated %}
+        <div class="dropdown text-end">
+          <a href="#" class="btn btn-primary text-white me-4 d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+            <li><a href="{% url 'cart:show_cart' %}" class="dropdown-item">Cart</a></li>
+            <li><a href="{% url 'shop:favorites' %}" class="dropdown-item">Favorites</a></li>
+            <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
+            <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">Sign out</a></li>
+          </ul>
+        </div>
+        {% else %}
+        <!-- Login and sign-up buttons for unauthenticated users -->
+        <div class="text-end">
+          <a href="{% url 'accounts:user_login' %}" class="btn btn-outline-primary me-2">Login</a>
+          <a href="{% url 'accounts:user_register' %}" class="btn btn-primary">Sign-up</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <!-- Main content area -->
+  <main class="container">
+    <div class="row mt-3">
+      <!-- Display messages if any -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      <!-- Placeholder for content to be injected by child templates -->
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <!-- Footer -->
+</br>
+
+  <footer class="text-center" style="background-color: hsl(218, 62.2%, 95%)">
+    <div class="container py-4">
+      <!-- Social media links -->
+      <a class="btn text-white btn-floating m-2" style="background-color: #3b5998;" href="https://www.facebook.com/" role="button"><i class="fab fa-facebook-f"></i></a>
+      <a class="btn text-white btn-floating m-2" style="background-color: #55acee;" href="https://x.com/" role="button"><i class="fab fa-twitter"></i></a>
+      <a class="btn text-white btn-floating m-2" style="background-color: #dd4b39;" href="https://www.google.com/intl/el/gmail/about/" role="button"><i class="fab fa-google"></i></a>
+      <a class="btn text-white btn-floating m-2" style="background-color: #ac2bac;" href="https://www.instagram.com/" role="button"><i class="fab fa-instagram"></i></a>
+      <a class="btn text-white btn-floating m-2" style="background-color: #0082ca;" href="https://www.linkedin.com/" role="button"><i class="fab fa-linkedin-in"></i></a>
+      <!-- Footer text -->
+      <p>© 2024 Copyright:
+        <a class="text-dark" href="http://127.0.0.1:8000/">Fashion & Tech</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JavaScript Bundle with Popper -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+
+<!-- Table to display products with Bootstrap styling -->
+<table class="table table-striped">
+    <!-- Table header with muted text color using Bootstrap classes -->
+    <thead class="text-muted">
+        <tr>
+            <!-- Table headers for product details -->
+            <th scope="col">n</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Date</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <!-- Loop through each product in the products context variable -->
+    {% for product in products %}
+    <tbody>
+      <tr>
+        <!-- Row number for the product -->
+        <th scope="row">{{ forloop.counter }}</th>
+        <!-- Product title with a link to the product's detail page -->
+        <td><a class="text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.title }}</a></td>
+        <!-- Product price -->
+        <td>${{ product.price }}</td>
+        <!-- Product category -->
+        <td>{{ product.category }}</td>
+        <!-- Product creation date formatted to "Month Day" -->
+        <td>{{ product.date_created|date:"M d" }}</td>
+        <!-- Link to delete the product -->
+        <td><a class="text-danger text-decoration-none" href="{% url 'dashboard:delete_product' product.id %}">Delete</a></td>
+        <!-- Link to edit the product -->
+        <td><a class="text-info text-decoration-none" href="{% url 'dashboard:edit_product' product.id %}">Edit</a></td>
+      </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

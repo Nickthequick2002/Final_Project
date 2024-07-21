@@ -1,0 +1,17 @@
+/* Set the height of html and body elements to 100% and remove margin */
+html, body {
+    height: 100%; /* Ensure the height of the html and body elements covers the full viewport height */
+    margin: 0;    /* Remove default margin from the body */
+}
+
+/* Style the body element */
+body {
+    display: flex;            /* Use flexbox layout for the body */
+    flex-direction: column;   /* Arrange children (main, header, footer, etc.) in a column */
+    min-height: 100vh;        /* Ensure the body covers at least the full viewport height */
+}
+
+/* Style the main element */
+main {
+    flex: 1; /* Allow the main element to grow and fill available space */
+}

@@ -1,0 +1,16 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<!-- Form element with POST method for secure data submission -->
+<form method="POST">
+    <!-- CSRF token for security to prevent Cross-Site Request Forgery attacks -->
+    {% csrf_token %}
+    <!-- Render the form fields as defined in the view -->
+    {{ form }}
+    <!-- Container for the submit button with Bootstrap class for styling -->
+    <div class="form-group">
+        <!-- Submit button with Bootstrap classes for styling -->
+        <button class="btn btn-primary mt-3 w-100" type="submit">Submit</button>
+    </div>
+</form>
+{% endblock %}

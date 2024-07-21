@@ -1,0 +1,42 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<!-- Table to display orders with Bootstrap styling -->
+<table class="table">
+    <!-- Table header with dark background using Bootstrap classes -->
+    <thead class="thead-dark">
+      <tr>
+        <!-- Table headers for order details -->
+        <th scope="col">#</th>
+        <th scope="col">User</th>
+        <th scope="col">Id</th>
+        <th scope="col">Total Price</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <!-- Loop through each order in the orders context variable -->
+    {% for order in orders %}
+    <tbody>
+      <tr>
+        <!-- Row number for the order -->
+        <th scope="row">{{ forloop.counter }}</th>
+        <!-- User's full name associated with the order -->
+        <td>{{ order.user.full_name }}</td>
+        <!-- Order ID -->
+        <td>{{ order.id }}</td>
+        <!-- Total price of the order -->
+        <td>${{ order.get_total_price }}</td>
+        <!-- Display order status with conditional styling -->
+        {% if order.status %}
+            <td class="text-success">Successful</td>
+        {% else %}
+            <td class="text-danger">Canceled</td>
+        {% endif %}
+        <!-- Link to view order details -->
+        <td><a href="{% url 'dashboard:order_detail' order.id %}" class="text-primary text-decoration-none">Detail</a></td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+{% endblock %}
